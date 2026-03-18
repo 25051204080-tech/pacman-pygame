@@ -1,7 +1,6 @@
 from board import boards
 import pygame
 import sys
-import math
 import random
 
 pygame.init()
@@ -27,29 +26,39 @@ power_time=300
 class MAP:
     def __init__(self,level):
         self.level=level
+        self.line1=pygame.transform.scale(pygame.image.load("assets/line/line1.png"),(20,20))
+        self.line2=pygame.transform.scale(pygame.image.load("assets/line/line1.png"),(40,40))
+        self.line3=pygame.transform.scale(pygame.image.load("assets/line/line3.png"),(20,20))
+        self.line4=pygame.transform.scale(pygame.image.load("assets/line/line4.png"),(20,20))
+        self.line5=pygame.transform.scale(pygame.image.load("assets/line/line5.png"),(20,20))
+        self.line6=pygame.transform.scale(pygame.image.load("assets/line/line6.png"),(20,20))
+        self.line7=pygame.transform.scale(pygame.image.load("assets/line/line7.png"),(20,20))
+        self.line8=pygame.transform.scale(pygame.image.load("assets/line/line8.png"),(20,20))
+
     def draw_board(self):
-        row=((HEIGHT-30)//32)
-        col=(WIDTH//30)
-        PI=math.pi
+        tile_w = WIDTH // len(self.level[0])
+        tile_h = (HEIGHT-30) // len(self.level)
 
         for i in range(len(self.level)):
             for j in range(len(self.level[i])):
+                x = j *tile_w
+                y = i *tile_h
                 if self.level[i][j]==1:
-                    pygame.draw.circle(screen, BALL,(j*col +(0.5*col), i*row+(0.5*row)), 3)
+                    screen.blit(self.line1,(x,y))
                 if self.level[i][j]==2 and not flicker:
-                    pygame.draw.circle(screen, BALL,(j*col +(0.5*col), i*row+(0.5*row)), 7)
+                    screen.blit(self.line2,(x-10,y-10))
                 if self.level[i][j]==3:
-                    pygame.draw.line(screen, LINE, (j*col + (0.5*col), i*row),(j*col + (0.5*col), i * row + row), 2)
+                    screen.blit(self.line3,(x,y))
                 if self.level[i][j]==4:
-                    pygame.draw.line(screen,LINE, (j * col, i * row + (0.5 * row)),(j * col + col, i * row + (0.5 * row)), 2)
+                    screen.blit(self.line4,(x,y))
                 if self.level[i][j]==5:
-                    pygame.draw.arc(screen,LINE,[(j * col - (col * 0.3)) - 2, (i * row + (0.5 * row)), col, row], 0,PI/2 , 2)          
+                    screen.blit(self.line5,(x,y))          
                 if self.level[i][j]==6:
-                    pygame.draw.arc(screen,LINE,[(j * col + (col * 0.5)), (i * row + (0.5 * row)), col, row],PI/2,PI, 2)          
+                    screen.blit(self.line6,(x,y))          
                 if self.level[i][j]==7:
-                    pygame.draw.arc(screen,LINE,[(j * col + (row*0.5)), (i * row - (0.4*row)), col, row], PI,3*PI/2 , 2)          
+                    screen.blit(self.line7,(x,y))          
                 if self.level[i][j]==8:
-                    pygame.draw.arc(screen,LINE,[(j * col - (row*0.4)-2), (i * row - (0.4*row)), col, row],3*PI/2,2*PI, 2)          
+                    screen.blit(self.line8,(x,y))          
 board=MAP(boards)
 
 class Player:
@@ -63,7 +72,7 @@ class Player:
 
         self.player_images=[]
         for i in range(1,4):
-            img = pygame.image.load(f"images/player_images/{i}.png")
+            img = pygame.image.load(f"assets/player_images/{i}.png")
             img = pygame.transform.scale(img,(self.height,self.width))
             self.player_images.append(img)
 
@@ -202,8 +211,8 @@ class ghost:
 class Pinky(ghost):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.image1 = pygame.transform.scale(pygame.image.load("images/ghost/ghost1.png"),(self.height,self.width))
-        self.image2 = pygame.transform.scale(pygame.image.load("images/ghost/ghost4.png"),(self.height,self.width))
+        self.image1 = pygame.transform.scale(pygame.image.load("assets/ghost/ghost1.png"),(self.height,self.width))
+        self.image2 = pygame.transform.scale(pygame.image.load("assets/ghost/ghost4.png"),(self.height,self.width))
     def draw(self):
         if not powerup:
             screen.blit(self.image1,(self.x,self.y))
@@ -214,8 +223,8 @@ class Pinky(ghost):
 class Greeny(ghost):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.image1 = pygame.transform.scale(pygame.image.load("images/ghost/ghost2.png"),(self.height,self.width))
-        self.image2 = pygame.transform.scale(pygame.image.load("images/ghost/ghost4.png"),(self.height,self.width))
+        self.image1 = pygame.transform.scale(pygame.image.load("assets/ghost/ghost2.png"),(self.height,self.width))
+        self.image2 = pygame.transform.scale(pygame.image.load("assets/ghost/ghost4.png"),(self.height,self.width))
     def draw(self):
         if not powerup:
             screen.blit(self.image1,(self.x,self.y))
@@ -226,8 +235,8 @@ class Greeny(ghost):
 class Bluey(ghost):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.image1 = pygame.transform.scale(pygame.image.load("images/ghost/ghost3.png"),(self.height,self.width))
-        self.image2 = pygame.transform.scale(pygame.image.load("images/ghost/ghost4.png"),(self.height,self.width))
+        self.image1 = pygame.transform.scale(pygame.image.load("assets/ghost/ghost3.png"),(self.height,self.width))
+        self.image2 = pygame.transform.scale(pygame.image.load("assets/ghost/ghost4.png"),(self.height,self.width))
     def draw(self):
         if not powerup:
             screen.blit(self.image1,(self.x,self.y))
@@ -294,7 +303,6 @@ while running:
             greeny.y = 270
         else:
             game_over = True
-
     if bluey.check_player(player):
         if powerup:
             score += 100
