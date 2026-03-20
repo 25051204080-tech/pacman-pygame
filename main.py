@@ -66,8 +66,8 @@ class Player:
         self.x=x
         self.y=y
         self.speed=2
-        self.height=30
-        self.width=30
+        self.height=27
+        self.width=27
         self.direction=0
 
         self.player_images=[]
@@ -156,15 +156,15 @@ class Player:
         if self.y>HEIGHT-self.height:
                 self.y=590-self.height
 
-player = Player(289, 418)
+player = Player(289, 427)
 
 class ghost:
     def __init__(self,x,y):
         self.x=x
         self.y=y
         self.speed=2
-        self.height=30
-        self.width=30
+        self.height=27
+        self.width=27
         self.direction=0
 
     def position(self, new_x, new_y, level):
